@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
+import { fetchNotices } from './api/notices'
 import {
   about,
+  admission,
   campusFeatures,
+  formatNoticeDate,
+  highlights,
+  isAdmissionNotice,
   links,
+  messages,
   mission,
   nav,
-  notices,
   patrons,
   programs,
   site,
@@ -26,23 +31,38 @@ function useScrolled(threshold = 24) {
 
 function useReveal() {
   useEffect(() => {
-    const nodes = document.querySelectorAll('.reveal')
+    const nodes = Array.from(document.querySelectorAll('.reveal'))
     if (!nodes.length) return undefined
+
+    const show = (el) => el.classList.add('is-visible')
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
+            show(entry.target)
             observer.unobserve(entry.target)
           }
         })
       },
-      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0.08, rootMargin: '0px 0px -5% 0px' },
     )
 
-    nodes.forEach((node) => observer.observe(node))
-    return () => observer.disconnect()
+    nodes.forEach((node) => {
+      const rect = node.getBoundingClientRect()
+      const inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 0
+      if (inView) show(node)
+      else observer.observe(node)
+    })
+
+    const fallback = window.setTimeout(() => {
+      nodes.forEach(show)
+    }, 1800)
+
+    return () => {
+      observer.disconnect()
+      window.clearTimeout(fallback)
+    }
   }, [])
 }
 
@@ -84,8 +104,8 @@ function Header() {
           <a className="btn btn-ghost" href={site.portal} target="_blank" rel="noreferrer">
             Student Portal
           </a>
-          <a className="btn btn-primary" href="#contact">
-            Contact
+          <a className="btn btn-primary" href="#admission">
+            Admission
           </a>
           <button
             className={`menu-toggle${open ? ' is-open' : ''}`}
@@ -137,8 +157,8 @@ function Hero() {
         </div>
 
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="#programs">
-            Explore programs
+          <a className="btn btn-primary" href="#admission">
+            Admission 2026
           </a>
           <a className="btn btn-ghost" href="#about">
             Our story
@@ -155,9 +175,9 @@ function Hero() {
 
 function About() {
   return (
-    <section className="section" id="about">
+    <section className="section about-section" id="about">
       <div className="container about-grid">
-        <div className="about-visual reveal">
+        <div className="about-visual">
           <img
             src="/images/campus/sl-01.jpg"
             alt="Students and campus life at JASKM"
@@ -174,12 +194,12 @@ function About() {
           />
         </div>
 
-        <div className="about-copy reveal">
+        <div className="about-copy">
           <div className="section-head">
             <span className="eyebrow">About the Madrasah</span>
             <h2>Seventy years of Sunni scholarship in Chattogram</h2>
           </div>
-          <p>{about.summary}</p>
+          <p className="about-lead">{about.summary}</p>
           <p className="mission">{mission}</p>
 
           <div className="stat-row">
@@ -200,6 +220,103 @@ function About() {
             ))}
           </ul>
         </div>
+      </div>
+    </section>
+  )
+}
+
+function Messages() {
+  return (
+    <section className="section messages-section" id="messages">
+      <div className="container">
+        <div className="section-head reveal">
+          <span className="eyebrow">Leadership</span>
+          <h2>Chairman & Principal</h2>
+          <p>Words of guidance from the governing body and the academic leadership of JASKM.</p>
+        </div>
+
+        <div className="message-stack">
+          {messages.map((item) => (
+            <article className="message-block reveal" key={item.role}>
+              <div className="message-person">
+                <img src={item.image} alt={item.name} width={180} height={180} loading="lazy" />
+                <div>
+                  <span className="eyebrow">{item.role}</span>
+                  <h3>{item.name}</h3>
+                </div>
+              </div>
+              <div className="message-body">
+                {item.body.map((para) => (
+                  <p key={para.slice(0, 48)}>{para}</p>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Admission({ admissionNotices }) {
+  return (
+    <section className="section admission-section" id="admission">
+      <div className="container">
+        <div className="section-head reveal">
+          <span className="eyebrow">Admission</span>
+          <h2>Join the Jamea family</h2>
+          <p>{admission.intro}</p>
+        </div>
+
+        <div className="admission-actions reveal">
+          {admission.actions.map((action) => (
+            <a
+              className="admission-action"
+              key={action.title}
+              href={action.href}
+              target={action.href.startsWith('http') ? '_blank' : undefined}
+              rel={action.href.startsWith('http') ? 'noreferrer' : undefined}
+            >
+              <h3>{action.title}</h3>
+              <p>{action.text}</p>
+              <span>{action.cta} →</span>
+            </a>
+          ))}
+        </div>
+
+        <ol className="admission-steps reveal">
+          {admission.steps.map((step, index) => (
+            <li key={step.title}>
+              <span className="step-num">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        {admissionNotices.length > 0 && (
+          <div className="admission-circulars reveal">
+            <h3>Latest admission circulars & results</h3>
+            <ul className="notice-list compact">
+              {admissionNotices.slice(0, 6).map((notice) => (
+                <li key={`${notice.title}-${notice.date}`}>
+                  <div>
+                    <span className="notice-cat">{notice.category}</span>
+                    <strong className="bn">{notice.title}</strong>
+                    <time>{formatNoticeDate(notice.date)}</time>
+                  </div>
+                  {notice.file ? (
+                    <a href={notice.file} target="_blank" rel="noreferrer">
+                      View
+                    </a>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   )
@@ -298,23 +415,45 @@ function Campus() {
   )
 }
 
-function Notices() {
+function Notices({ items }) {
   return (
-    <section className="section" id="notices">
+    <section className="section notices-section" id="notices">
       <div className="container">
         <div className="section-head reveal">
+          <span className="eyebrow">Notices</span>
+          <h2>Recent notices</h2>
+          <p>Official circulars, results, and campus announcements from the madrasah office.</p>
+        </div>
+
+        <ul className="notice-list reveal">
+          {items.slice(0, 10).map((notice) => (
+            <li key={`${notice.title}-${notice.date}`}>
+              <div>
+                <span className="notice-cat">{notice.category}</span>
+                <strong className="bn">{notice.title}</strong>
+                <time>{formatNoticeDate(notice.date)}</time>
+              </div>
+              {notice.file ? (
+                <a href={notice.file} target="_blank" rel="noreferrer">
+                  Open
+                </a>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+
+        <div className="section-head reveal" style={{ marginTop: '3.5rem' }}>
           <span className="eyebrow">Campus life</span>
           <h2>Recent highlights</h2>
-          <p>Examinations, ceremonies, and national achievements from across the madrasah community.</p>
         </div>
 
         <div className="notice-rail">
-          {notices.map((notice) => (
-            <article className="notice reveal" key={notice.title}>
-              <img src={notice.image} alt="" width={800} height={600} loading="lazy" />
+          {highlights.map((item) => (
+            <article className="notice reveal" key={item.title}>
+              <img src={item.image} alt="" width={800} height={600} loading="lazy" />
               <div className="notice-body">
-                <time>{notice.date}</time>
-                <h3>{notice.title}</h3>
+                <time>{item.date}</time>
+                <h3>{item.title}</h3>
               </div>
             </article>
           ))}
@@ -413,9 +552,6 @@ function Footer() {
                   <a href={item.href}>{item.label}</a>
                 </li>
               ))}
-              <li>
-                <a href="#patrons">Patrons</a>
-              </li>
             </ul>
           </div>
 
@@ -447,7 +583,20 @@ function Footer() {
 }
 
 export default function App() {
+  const [notices, setNotices] = useState([])
   useReveal()
+
+  useEffect(() => {
+    let alive = true
+    fetchNotices().then((rows) => {
+      if (alive) setNotices(rows)
+    })
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  const admissionNotices = notices.filter(isAdmissionNotice)
 
   return (
     <>
@@ -455,10 +604,12 @@ export default function App() {
       <main>
         <Hero />
         <About />
+        <Messages />
+        <Admission admissionNotices={admissionNotices} />
         <Programs />
         <Patrons />
         <Campus />
-        <Notices />
+        <Notices items={notices} />
         <Contact />
       </main>
       <Footer />

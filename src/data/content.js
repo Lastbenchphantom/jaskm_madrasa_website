@@ -15,12 +15,19 @@ export const site = {
   mapEmbed:
     'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14757.736545755877!2d91.8372072!3d22.3749855!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30ad27816309aeb7%3A0xcad5f4f134653769!2sJamea%20Ahmadia%20Sunnia%20Kamil%20Madrasah!5e0!3m2!1sen!2sbd!4v1694416250929!5m2!1sen!2sbd',
   portal: 'https://portal.cloudcampus24.com/UserAuth/Login?ReturnUrl=%2F',
+  onlineAdmission: 'https://vortibd.com/institute/214/340',
+  api: {
+    base: 'https://portal2websiteapi.cloudcampus24.com/api/v1',
+    key: 'OLCZ5OHN91o=',
+    client: 'mi3xkNpDMBw=',
+  },
 }
 
 export const nav = [
   { label: 'About', href: '#about' },
+  { label: 'Messages', href: '#messages' },
+  { label: 'Admission', href: '#admission' },
   { label: 'Programs', href: '#programs' },
-  { label: 'Campus', href: '#campus' },
   { label: 'Notices', href: '#notices' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -45,6 +52,60 @@ export const about = {
     { year: '1962', text: 'Official Fazil recognition from the Madrasah Board.' },
     { year: '1972–96', text: 'Kamil Hadith, Fiqh, and Tafsir departments approved.' },
     { year: '2010+', text: 'Honours and Masters under Islamic Arabic University.' },
+  ],
+}
+
+export const messages = [
+  {
+    role: 'Chairman',
+    name: 'Alhaj Abul Mohsin Md. Yeahia Khan',
+    image: '/images/leadership/chairman.jpg',
+    body: [
+      'The traditional Jamea Ahmadia Sunnia Kamil Madrasah has distinctive features. Apart from acquiring Islamic knowledge, there are also arrangements for students to acquire leadership qualities, qualifications and skills.',
+      "This Madrasah has been playing a unique role in spreading the ideals of Ahle Sunnat Wal Jama'at. Therefore, this madrasah became one of the leading religious educational institutions in the country.",
+      'Here the students are acquiring knowledge in the sincere teaching environment of the qualified teachers under the guidance of the skilled Principal and Vice Principal. New students can use this environment to develop themselves. I wish the teachers and students to always be diligent in their respective responsibilities in protecting the heritage of the madrasah.',
+    ],
+  },
+  {
+    role: 'Principal',
+    name: 'Qazi Abdul Alim Rezvi',
+    image: '/images/leadership/principal.jpg',
+    body: [
+      'All praises are reserved for the omnipotent Allah. Countless salutations and peace be upon the beloved Prophet Muhammad ﷺ. Education is the backbone of a nation, and gaining spiritual knowledge is exceedingly vital for human existence.',
+      'In 1954, Qutbul Auliya Hazratul Allama Hafeez Qari Syed Ahmad Shah Sirikoti (R.A.) founded Jamia Ahmadia Sunnia Kamil Madrasah for the propagation of religious education. Today this madrasah continues to play a pivotal role in the establishment and propagation of Islam and Sunniyat at home and abroad.',
+      'Under the spiritual leadership of Hazrat Allama Syed Muhammad Tahir Shah (M.J.A.) and Hazrat Allama Pir Syed Muhammad Sabir Shah (M.J.A.), the activities of the madrasah are progressing rapidly. I pray for the well-being and success of our students, teachers, administrators, and the wider Anjuman family — both here and hereafter. Ameen.',
+    ],
+  },
+]
+
+export const admission = {
+  intro:
+    'Admissions open across Ebtedayee, Dakhil, Alim, Fazil, and Kamil pathways. Review the latest circulars, check results, and apply through the official channels below.',
+  actions: [
+    {
+      title: 'Online admission',
+      text: 'Start or continue an application through the VortiBD institute portal.',
+      href: 'https://vortibd.com/institute/214/340',
+      cta: 'Apply online',
+    },
+    {
+      title: 'Student portal',
+      text: 'Access forms, results, and campus services with your CloudCampus account.',
+      href: 'https://portal.cloudcampus24.com/UserAuth/Login?ReturnUrl=%2F',
+      cta: 'Open portal',
+    },
+    {
+      title: 'Contact office',
+      text: 'Call or email the madrasah office for seat status and document guidance.',
+      href: '#contact',
+      cta: 'Get in touch',
+    },
+  ],
+  steps: [
+    { title: 'Review circular', text: 'Check the latest admission notice for your class or department.' },
+    { title: 'Submit application', text: 'Apply online or collect and submit the prescribed form.' },
+    { title: 'Admission test', text: 'Sit for the scheduled test where required by the department.' },
+    { title: 'Confirm enrolment', text: 'Complete fees and document verification to secure your seat.' },
   ],
 }
 
@@ -122,7 +183,7 @@ export const campusFeatures = [
   },
 ]
 
-export const notices = [
+export const highlights = [
   {
     title: 'Annual exam results & textbook distribution',
     date: 'Jan 2026',
@@ -140,6 +201,58 @@ export const notices = [
   },
 ]
 
+/** Static fallback if live notice API is unreachable */
+export const noticesFallback = [
+  {
+    title: 'Alim Admission Circular 2026',
+    category: 'Alim',
+    date: '2026-09-06',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_Admission Circular 2026_06-09-2026-09-16-18_s.jpg',
+  },
+  {
+    title: 'Admission Circular of Kamil Masters (2024-25)',
+    category: 'Kamil',
+    date: '2026-04-06',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_Admission Circular of Kamil Masters(2024-25)_06-04-2026-11-53-29_s.pdf',
+  },
+  {
+    title: 'Admission Circular of Kamil (2024-25)',
+    category: 'Kamil',
+    date: '2026-02-15',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_Admission Circular of Kamil (2024-25)_15-02-2026-12-55-26_s.jpeg',
+  },
+  {
+    title: 'ফাযিল ১ম বর্ষ সেশন ২০২৫-২৬ এর ভর্তি ফি সংক্রান্ত বিজ্ঞপ্তি',
+    category: 'Fazil',
+    date: '2026-01-13',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_ফাযিল ১ম বর্ষ সেশন ২০২৫ -২৬ এর ভর্তি ফি সংক্রান্ত বিজ্ঞপ্তি_13-01-2026-01-44-13_s.pdf',
+  },
+  {
+    title: 'ফাযিল ১ম বর্ষের ভর্তি পরীক্ষার ফলাফল সেশন ২০২৫-২৬',
+    category: 'Fazil',
+    date: '2026-01-13',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_ফাযিল ১ম বর্ষের ভর্তি পরীক্ষার ফলাফল সেশন ২০২৫-২৬_13-01-2026-01-37-10_s.pdf',
+  },
+  {
+    title: 'নতুন ভর্তি সংক্রান্ত বিজ্ঞপ্তি',
+    category: 'Ebtedayee to Dakhil',
+    date: '2026-01-08',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_নতুন ভর্তি সংক্রান্ত বিজ্ঞপ্তি_08-01-2026-02-04-59_s.pdf',
+  },
+  {
+    title: 'Result of Admission test 2026',
+    category: 'Ebtedayee to Dakhil',
+    date: '2026-01-08',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_Result of Admission test 2026_08-01-2026-01-55-47_s.pdf',
+  },
+  {
+    title: 'Ebtedayee Two to Dakhil Ten Admission 2026',
+    category: 'Ebtedayee to Dakhil',
+    date: '2026-01-05',
+    file: 'https://jaskm-edu-bd.s3.ap-southeast-1.amazonaws.com/dws/2026/notice/Notice_Admission 2026_05-01-2026-05-55-09_s.jpeg',
+  },
+]
+
 export const links = [
   { label: 'Bangladesh Madrasah Education Board', href: 'http://bmeb.gov.bd/' },
   { label: 'Islamic Arabic University', href: 'https://iau.edu.bd/' },
@@ -148,3 +261,15 @@ export const links = [
   { label: 'Education Board Results', href: 'http://www.educationboardresults.gov.bd/' },
   { label: 'Technical & Madrasah Education Division', href: 'http://tmed.gov.bd/' },
 ]
+
+export function formatNoticeDate(iso) {
+  if (!iso) return ''
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return iso
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+export function isAdmissionNotice(notice) {
+  const hay = `${notice.title || ''} ${notice.category || ''}`.toLowerCase()
+  return /admission|circular|ভর্তি|vorti|enrol|enroll/.test(hay)
+}
