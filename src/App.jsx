@@ -472,7 +472,8 @@ function Programs() {
           {programs.map((program, index) => (
             <article
               key={program.title}
-              className="reveal border-b border-[#0c2148]/10 p-6 transition-all duration-300 hover:pl-3 md:p-7 md:pr-6 md:[&:nth-child(2n)]:pl-6 md:[&:nth-child(2n)]:pr-0"
+              className="reveal program-card border-b border-[#0c2148]/10 p-6 hover:pl-3 md:p-7 md:pr-6 md:[&:nth-child(2n)]:pl-6 md:[&:nth-child(2n)]:pr-0"
+              style={{ '--program-delay': `${index * 90}ms` }}
             >
               <span className="mb-2 block text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#c4a14a]">
                 {String(index + 1).padStart(2, '0')}

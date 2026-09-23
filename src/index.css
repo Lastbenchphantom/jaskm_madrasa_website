@@ -134,9 +134,25 @@ time {
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
 
+.program-card {
+  transition: opacity 0.7s var(--ease) var(--program-delay), transform 0.7s var(--ease) var(--program-delay), padding-left 0.3s ease;
+}
+
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+.reveal.program-card.is-visible {
+  transition: opacity 0.7s var(--ease) var(--program-delay), transform 0.3s var(--ease), border-color 0.3s ease,
+    background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reveal.program-card.is-visible:hover {
+  transform: translateY(-6px);
+  border-color: rgba(26, 107, 69, 0.35);
+  background-color: rgba(15, 70, 48, 0.18);
+  box-shadow: 0 14px 28px rgba(7, 21, 48, 0.1);
 }
 
 @keyframes heroZoom {
